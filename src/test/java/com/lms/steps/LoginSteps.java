@@ -6,6 +6,7 @@ import com.lms.pages.HomePage;
 import com.lms.pages.LoginPage;
 import com.lms.utils.CommonMethods;
 import com.lms.utils.ConfigReader;
+import com.lms.utils.PageInitializer;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,14 +14,9 @@ import io.cucumber.java.en.When;
 
 public class LoginSteps extends CommonMethods {
 
-	@Given("user navigated to lms application")
-	public void login() {
-		setUp();
-	}
-
 	@When("user enters valid username and password")
 	public void enterTeacherCredentials() {
-		LoginPage login = new LoginPage();
+		
 		sendText(login.userEmail, ConfigReader.getPropertyValue("username"));
 		sendText(login.password, ConfigReader.getPropertyValue("password"));
 	}
@@ -28,26 +24,20 @@ public class LoginSteps extends CommonMethods {
 	@When("user clicks on login in button")
 	public void user_clicks_on_login_in_button() {
 
-		LoginPage loginPage = new LoginPage();
-		click(loginPage.loginBtn);
+		click(login.loginBtn);
 	}
 
 	@Then("user is successfully logged in")
 	public void user_is_successfully_logged_in() {
 
-		HomePage homePage = new HomePage();
-		Assert.assertTrue(displayed(homePage.logoutBtn));
-		tearDown();
+		Assert.assertTrue(displayed(home.logoutBtn));
 	}
 
-	@Then("logo and login text is displayed")
-	public void logoValidation() {
-		LoginPage login = new LoginPage();
+	@Then("logo and login text {string} is displayed")
+	public void logoValidation(String expectedText) {
+		
 		Assert.assertTrue(displayed(login.logo));
-		
-		String expectedText = "Dear user, log in to access the admin area!";
-		String actual=login.loginText.getText();
-		
-		Assert.assertEquals("Text is not matched", expectedText,actual );
+		String actual = login.loginText.getText();
+		Assert.assertEquals("Text is not matched", expectedText, actual);
 	}
 }

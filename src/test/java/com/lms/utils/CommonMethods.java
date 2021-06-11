@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class CommonMethods {
+public class CommonMethods extends PageInitializer{
 
 	protected static WebDriver driver;
 
